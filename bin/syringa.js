@@ -3,6 +3,7 @@
 const cli = require('commander');
 const WebSocket = require('ws');
 const watch = require('node-watch');
+const open = require('open');
 
 const wss = new WebSocket.Server({ port: 8128 });
 
@@ -11,6 +12,10 @@ const create = () => {
 };
 
 const run = () => {
+    open('google.com', {
+        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
+    });
+
     wss.on('connection', function connection(ws) {
         watch(process.cwd(), { recursive: true }, function () {
             ws.send('fidelio');
