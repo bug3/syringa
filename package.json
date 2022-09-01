@@ -10,6 +10,7 @@
         "url": "https://github.com/bug3/syringa.git"
     },
     "dependencies": {
-        "commander": "^9.4.0"
+        "commander": "^9.4.0",
+        "node-watch": "^0.7.3"
     }
 }
