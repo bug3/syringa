@@ -12,5 +12,11 @@
             "js": ["content.js"]
         }
     ],
+    "web_accessible_resources": [
+        {
+            "matches": ["<all_urls>"],
+            "resources": ["resources/*"]
+        }
+    ],
     "permissions": ["activeTab"]
 }
