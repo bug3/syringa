@@ -24,7 +24,23 @@ var createScript = function (file, reload) {
 var inject = function () {
     fetch(chrome.runtime.getURL('resources/.syringarc.json'))
         .then((response) => response.json())
-        .then((config) => {});
+        .then((config) => {
+            appendHtml('index.html', function (html) {
+                let id = 'syringa-html';
+
+                $('#' + id).remove();
+                $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
+            });
+
+            appendHtml('style.css', function (css) {
+                let id = 'syringa-style';
+
+                $('#' + id).remove();
+                $(document.body).append(`<style id="${id}">${css}</style>`);
+            });
+
+            createScript('resources/script.js', true);
+        });
 };
 
 socket.onopen = function () {
