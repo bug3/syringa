@@ -6,6 +6,17 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 
+var config;
+
+let readConfig = () => {
+    try {
+        let jsonString = fs.readFileSync(process.cwd() + '/.syringarc.json');
+        config = JSON.parse(jsonString);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 let copyFiles = () => {
     try {
         fs.copySync(process.cwd(), __dirname + '/../extension/resources');
@@ -41,6 +52,7 @@ const create = () => {
 };
 
 const run = () => {
+    readConfig();
     copyFiles();
     createServer();
     openBrowser();
