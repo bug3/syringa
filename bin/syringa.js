@@ -17,6 +17,8 @@ let createServer = () => {
 
     wss.on('connection', function connection(ws) {
         watch(process.cwd(), { recursive: true }, function () {
+            copyFiles();
+
             ws.send('fidelio');
         });
     });
@@ -38,7 +40,11 @@ const create = () => {
         .catch((error) => console.error(error));
 };
 
-const run = () => {};
+const run = () => {
+    copyFiles();
+    createServer();
+    openBrowser();
+};
 
 cli.name('syringa').description('The Live Injector').version('0.0.1');
 
