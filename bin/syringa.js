@@ -6,10 +6,12 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 
-let openBrowser = () => {
-    open('google.com', {
-        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
-    });
+let copyFiles = () => {
+    try {
+        fs.copySync(process.cwd(), __dirname + '/../extension/resources');
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 let createServer = () => {
@@ -24,12 +26,10 @@ let createServer = () => {
     });
 };
 
-let copyFiles = () => {
-    try {
-        fs.copySync(process.cwd(), __dirname + '/../extension/resources');
-    } catch (error) {
-        console.error(error);
-    }
+let openBrowser = () => {
+    open('google.com', {
+        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
+    });
 };
 
 const create = () => {
