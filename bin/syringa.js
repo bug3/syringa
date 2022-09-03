@@ -38,8 +38,14 @@ let createServer = () => {
 };
 
 let openBrowser = () => {
-    open('google.com', {
-        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
+    let cmdArgs = [`--load-extension=${__dirname + '/../extension'}`];
+
+    if (config.incognito) {
+        cmdArgs.push('--incognito');
+    }
+
+    open(config.url, {
+        app: { name: config.browser, arguments: cmdArgs }
     });
 };
 
