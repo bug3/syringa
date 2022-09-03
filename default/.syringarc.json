@@ -1,0 +1,9 @@
+{
+    "url": "",
+    "browser": "chromium",
+    "incognito": false,
+    "html": {
+        "selector": "body",
+        "method": "append"
+    }
+}
