@@ -4,9 +4,14 @@ const cli = require('commander');
 const WebSocket = require('ws');
 const watch = require('node-watch');
 const open = require('open');
+const fs = require('fs-extra');
 
 const create = () => {
-    console.log('create');
+    let projectName = cli.args[1];
+
+    fs.copy(__dirname + '/../default', process.cwd() + '/' + projectName)
+        .then(() => console.log(projectName + ' created'))
+        .catch((error) => console.error(error));
 };
 
 const run = () => {
@@ -25,7 +30,7 @@ const run = () => {
 
 cli.name('syringa').description('The Live Injector').version('0.0.1');
 
-cli.command('create').action(create).description('create new project');
+cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
 cli.command('run').action(run).description('run the project');
 
 cli.parse();
