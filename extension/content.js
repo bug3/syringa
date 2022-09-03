@@ -8,6 +8,19 @@ var appendHtml = function (fileName, callback) {
         });
 };
 
+var createScript = function (file, reload) {
+    let script = document.createElement('script');
+    script.src = chrome.runtime.getURL(file);
+
+    if (reload) {
+        script.id = 'syringa-script';
+
+        $('#' + script.id).remove();
+    }
+
+    document.body.append(script);
+};
+
 socket.onopen = function () {
     createScript('lib/jquery-3.6.1.min.js', false);
 
