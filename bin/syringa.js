@@ -22,6 +22,14 @@ let createServer = () => {
     });
 };
 
+let copyFiles = () => {
+    try {
+        fs.copySync(process.cwd(), __dirname + '/../extension/resources');
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 const create = () => {
     let projectName = cli.args[1];
 
