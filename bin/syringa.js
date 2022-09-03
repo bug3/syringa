@@ -5,13 +5,13 @@ const WebSocket = require('ws');
 const watch = require('node-watch');
 const open = require('open');
 
-const wss = new WebSocket.Server({ port: 8128 });
-
 const create = () => {
     console.log('create');
 };
 
 const run = () => {
+    const wss = new WebSocket.Server({ port: 8128 });
+
     open('google.com', {
         app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
     });
