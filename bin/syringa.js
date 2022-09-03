@@ -6,6 +6,12 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 
+let openBrowser = () => {
+    open('google.com', {
+        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
+    });
+};
+
 const create = () => {
     let projectName = cli.args[1];
 
@@ -16,10 +22,6 @@ const create = () => {
 
 const run = () => {
     const wss = new WebSocket.Server({ port: 8128 });
-
-    open('google.com', {
-        app: { name: 'chromium', arguments: [`--load-extension=${__dirname + '/../extension'}`] }
-    });
 
     wss.on('connection', function connection(ws) {
         watch(process.cwd(), { recursive: true }, function () {
