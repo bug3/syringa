@@ -21,6 +21,12 @@ var createScript = function (file, reload) {
     document.body.append(script);
 };
 
+var inject = function () {
+    fetch(chrome.runtime.getURL('resources/.syringarc.json'))
+        .then((response) => response.json())
+        .then((config) => {});
+};
+
 socket.onopen = function () {
     createScript('lib/jquery-3.6.1.min.js', false);
 
