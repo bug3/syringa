@@ -12,6 +12,16 @@ let openBrowser = () => {
     });
 };
 
+let createServer = () => {
+    let wss = new WebSocket.Server({ port: 8128 });
+
+    wss.on('connection', function connection(ws) {
+        watch(process.cwd(), { recursive: true }, function () {
+            ws.send('fidelio');
+        });
+    });
+};
+
 const create = () => {
     let projectName = cli.args[1];
 
@@ -20,15 +30,7 @@ const create = () => {
         .catch((error) => console.error(error));
 };
 
-const run = () => {
-    const wss = new WebSocket.Server({ port: 8128 });
-
-    wss.on('connection', function connection(ws) {
-        watch(process.cwd(), { recursive: true }, function () {
-            ws.send('fidelio');
-        });
-    });
-};
+const run = () => {};
 
 cli.name('syringa').description('The Live Injector').version('0.0.1');
 
