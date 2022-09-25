@@ -6,12 +6,13 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 
-var config;
+var config = {};
 
 let readConfig = () => {
     try {
         let jsonString = fs.readFileSync(process.cwd() + '/.syringarc.json');
-        config = JSON.parse(jsonString);
+
+        Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
         console.log(error);
     }
@@ -38,7 +39,11 @@ let createServer = () => {
 };
 
 let openBrowser = () => {
-    let cmdArgs = [`--load-extension=${__dirname + '/../extension'}`];
+    let cmdArgs = [];
+
+    if (config.options.autoLoad) {
+        cmdArgs.push(`--load-extension=${__dirname + '/../extension'}`);
+    }
 
     if (config.incognito) {
         cmdArgs.push('--incognito');
@@ -67,6 +72,12 @@ const run = () => {
 cli.name('syringa').description('The Live Injector').version('0.0.1');
 
 cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
-cli.command('run').action(run).description('run the project');
+cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
+    .action((options) => {
+        config.options = options;
+
+        run(options);
+    });
 
 cli.parse();
+
