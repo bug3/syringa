@@ -1,22 +1,18 @@
 {
-    "name": "syringa",
-    "description": "The Live Injector",
-    "version": "0.0.1",
-    "manifest_version": 3,
-    "background": {
-        "service_worker": "background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": ["<all_urls>"],
-            "js": ["lib/jquery-3.6.1.min.js", "content.js"]
-        }
-    ],
-    "web_accessible_resources": [
-        {
-            "matches": ["<all_urls>"],
-            "resources": ["lib/*", "resources/*"]
-        }
-    ],
-    "permissions": ["activeTab"]
+	"name": "syringa",
+	"description": "The Live Injector",
+	"version": "0.0.1",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": ["lib/jquery-3.6.1.min.js", "content.js"]
+	}],
+	"web_accessible_resources": [{
+		"matches": ["<all_urls>"],
+		"resources": ["lib/*", "resources/*"]
+	}],
+	"permissions": ["activeTab"]
 }
