@@ -76,8 +76,11 @@ cli.command('run').description('run the project').option('--auto-load', 'no exte
     .action((options) => {
         config.options = options;
 
-        run(options);
+        if (fs.existsSync('.syringarc.json')) {
+            run(options);
+        } else {
+            console.log('.syringarc.json file not found');
+        }
     });
 
 cli.parse();
-
