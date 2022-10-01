@@ -1,6 +1,6 @@
 {
     "url": "",
-    "browser": "chromium",
+    "browser": "google-chrome",
     "incognito": false,
     "html": {
         "selector": "body",
