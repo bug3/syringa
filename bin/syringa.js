@@ -69,7 +69,7 @@ const run = () => {
     openBrowser();
 };
 
-cli.name('syringa').description('The Live Injector').version('0.0.1');
+cli.name('syringa').description('The Live Injector').version('0.0.5');
 
 cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
 cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
