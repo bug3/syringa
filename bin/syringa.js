@@ -14,7 +14,7 @@ let readConfig = () => {
 
         Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
@@ -79,7 +79,7 @@ cli.command('run').description('run the project').option('--auto-load', 'no exte
         if (fs.existsSync('.syringarc.json')) {
             run(options);
         } else {
-            console.log('.syringarc.json file not found');
+            console.error('.syringarc.json file not found');
         }
     });
 
