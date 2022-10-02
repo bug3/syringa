@@ -50,7 +50,7 @@ let openBrowser = () => {
     }
 
     open(config.url, {
-        app: { name: config.browser, arguments: cmdArgs }
+        app: { name: open.apps[config.browser], arguments: cmdArgs }
     });
 };
 
