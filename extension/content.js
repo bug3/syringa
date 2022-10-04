@@ -25,7 +25,7 @@ var inject = function () {
     fetch(chrome.runtime.getURL('resources/.syringarc.json'))
         .then((response) => response.json())
         .then((config) => {
-            if (config.url === window.location.href) {
+            if (removeTrailingSlash(config.url) === removeTrailingSlash(window.location.href)) {
                 appendHtml('index.html', function (html) {
                     let id = 'syringa-html';
 
@@ -44,6 +44,10 @@ var inject = function () {
             }
         });
 };
+
+var removeTrailingSlash = function (url) {
+    return url.replace(/\/$/, "");
+}
 
 socket.onopen = function () {
     createScript('lib/jquery-3.6.1.min.js', false);
