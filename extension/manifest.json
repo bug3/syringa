@@ -1,7 +1,7 @@
 {
 	"name": "syringa",
 	"description": "The Live Injector",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"manifest_version": 3,
 	"background": {
 		"service_worker": "background.js"
