@@ -36,3 +36,14 @@ npm install -g syringa
     ```bash
     syringa run --auto-load
     ```
+
+## Load Syringa Extension
+
+- Open the extensions page url("**chrome://extensions**") in the browser.
+- Turn on the **Developer mode**.
+- Click on the **Load unpacked** button and select the syringa extension directory.
+    -   **Get extension path:**
+
+        ```bash
+        echo $(npm list -g | head -1)/node_modules/syringa/extension
+        ```
