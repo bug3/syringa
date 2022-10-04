@@ -13,3 +13,20 @@ Via npm:
 ```bash
 npm install -g syringa
 ```
+
+## Usage
+
+-   **Create project**:
+
+    ```bash
+    syringa create [projectName]
+    cd [projectName]
+    ```
+
+- **Edit** your code and configuration file(.syringarc.json)
+
+-   **Run project:** ( In project directory )
+
+    ```bash
+    syring run
+    ```
