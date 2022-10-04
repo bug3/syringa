@@ -47,3 +47,7 @@ npm install -g syringa
         ```bash
         echo $(npm list -g | head -1)/node_modules/syringa/extension
         ```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
