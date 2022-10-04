@@ -52,11 +52,11 @@ npm install -g syringa
 
 If you want to use syringa in incognito mode:
 
-    - Open the extensions page url("**chrome://extensions**") in the browser.
+* Open the extensions page url("**chrome://extensions**") in the browser.
 
-    - Find Syringa Extension and click the **details button**.
+* Find Syringa Extension and click the **details** button.
 
-    - Scroll down and **Allow in incognito**.
+* Scroll down and **Allow in incognito**.
 
 ## License
 
