@@ -28,5 +28,11 @@ npm install -g syringa
 -   **Run project:** ( In project directory )
 
     ```bash
-    syring run
+    syringa run
+    ```
+
+-   **Auto-Load:** ( if you have not installed syringa extension in your browser )
+
+    ```bash
+    syringa run --auto-load
     ```
