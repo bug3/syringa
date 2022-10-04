@@ -5,3 +5,11 @@ Syringa is a live injector for frontend development in the browser
 * **Quick:** You can develop with your own editor instead of developing on console with Syringa.
 * **Live:** Inject your code into web pages with the live reload feature.
 * **Auto-Load:** It can work without loading extension.
+
+## Installation
+
+Via npm:
+
+```bash
+npm install -g syringa
+```
