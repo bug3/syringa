@@ -1,0 +1,19 @@
+#syringa-html {
+    color: aquamarine;
+    text-align: center;
+    margin-top: 23px;
+    font-size: 19px;
+}
+
+.lnXdpd {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+}
