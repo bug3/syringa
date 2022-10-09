@@ -58,6 +58,22 @@ If you want to use syringa in incognito mode:
 
 * Scroll down and **Allow in incognito**.
 
+## Permissions
+
+If you get an error like this: **EACCES: permission denied**. The following codes may be useful for you.
+
+-   Installation:
+
+    ```bash
+    sudo npm install -g syringa
+    ```
+
+-   Change Owner:
+
+    ```bash
+    sudo chown -R $USER $(echo $(npm list -g | head -1)/node_modules/syringa)
+    ```
+
 ## Note
 
 * Browser windows must be closed to use the **Auto-Load** feature.
