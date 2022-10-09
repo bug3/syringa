@@ -6,11 +6,11 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 
-var config = {};
+const config = {};
 
-let readConfig = () => {
+const readConfig = () => {
     try {
-        let jsonString = fs.readFileSync(process.cwd() + '/.syringarc.json');
+        const jsonString = fs.readFileSync(`${process.cwd()}/.syringarc.json`);
 
         Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
@@ -18,16 +18,16 @@ let readConfig = () => {
     }
 };
 
-let copyFiles = () => {
+const copyFiles = () => {
     try {
-        fs.copySync(process.cwd(), __dirname + '/../extension/resources');
+        fs.copySync(process.cwd(), `${__dirname}/../extension/resources`);
     } catch (error) {
         console.error(error);
     }
 };
 
-let createServer = () => {
-    let wss = new WebSocket.Server({ port: 8128 });
+const createServer = () => {
+    const wss = new WebSocket.Server({ port: 8128 });
 
     wss.on('connection', function connection(ws) {
         watch(process.cwd(), { recursive: true }, function () {
@@ -38,11 +38,11 @@ let createServer = () => {
     });
 };
 
-let openBrowser = () => {
-    let cmdArgs = [];
+const openBrowser = () => {
+    const cmdArgs = [];
 
     if (config.options.autoLoad) {
-        cmdArgs.push(`--load-extension=${__dirname + '/../extension'}`);
+        cmdArgs.push(`--load-extension=${`${__dirname}/../extension`}`);
     }
 
     if (config.incognito) {
@@ -55,10 +55,10 @@ let openBrowser = () => {
 };
 
 const create = () => {
-    let projectName = cli.args[1];
+    const projectName = cli.args[1];
 
-    fs.copy(__dirname + '/../default', process.cwd() + '/' + projectName)
-        .then(() => console.log(projectName + ' created'))
+    fs.copy(`${__dirname}/../default`, `${process.cwd()}/${projectName}`)
+        .then(() => console.log(`${projectName} created`))
         .catch((error) => console.error(error));
 };
 
