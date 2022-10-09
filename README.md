@@ -58,6 +58,10 @@ If you want to use syringa in incognito mode:
 
 * Scroll down and **Allow in incognito**.
 
+## Note
+
+* Browser windows must be closed to use the **Auto-Load** feature.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
