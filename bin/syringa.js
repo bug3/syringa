@@ -8,6 +8,39 @@ const fs = require('fs-extra');
 
 const config = {};
 
+const main = () => {
+    cli.name('syringa').description('The Live Injector').version('0.0.8');
+
+    cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
+    cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
+        .action((options) => {
+            config.options = options;
+
+            if (fs.existsSync('.syringarc.json')) {
+                run(options);
+            } else {
+                console.error('.syringarc.json file not found');
+            }
+        });
+
+    cli.parse();
+};
+
+const create = () => {
+    const projectName = cli.args[1];
+
+    fs.copy(`${__dirname}/../default`, `${process.cwd()}/${projectName}`)
+        .then(() => console.log(`${projectName} created`))
+        .catch((error) => console.error(error));
+};
+
+const run = () => {
+    readConfig();
+    copyFiles();
+    createServer();
+    openBrowser();
+};
+
 const readConfig = () => {
     try {
         const jsonString = fs.readFileSync(`${process.cwd()}/.syringarc.json`);
@@ -54,33 +87,4 @@ const openBrowser = () => {
     });
 };
 
-const create = () => {
-    const projectName = cli.args[1];
-
-    fs.copy(`${__dirname}/../default`, `${process.cwd()}/${projectName}`)
-        .then(() => console.log(`${projectName} created`))
-        .catch((error) => console.error(error));
-};
-
-const run = () => {
-    readConfig();
-    copyFiles();
-    createServer();
-    openBrowser();
-};
-
-cli.name('syringa').description('The Live Injector').version('0.0.8');
-
-cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
-cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
-    .action((options) => {
-        config.options = options;
-
-        if (fs.existsSync('.syringarc.json')) {
-            run(options);
-        } else {
-            console.error('.syringarc.json file not found');
-        }
-    });
-
-cli.parse();
+main();
