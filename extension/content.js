@@ -1,10 +1,11 @@
 const socket = new WebSocket('ws://localhost:8128');
 
-const appendHtml = function (fileName, callback) {
-    fetch(chrome.runtime.getURL(`resources/${fileName}`))
+const createHtml = function (file, id, config) {
+    fetch(chrome.runtime.getURL(file))
         .then((response) => response.text())
-        .then((data) => {
-            callback(data);
+        .then((html) => {
+            $(`#${id}`).remove();
+            $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
         });
 };
 
@@ -35,13 +36,7 @@ const inject = function () {
     fetch(chrome.runtime.getURL('resources/.syringarc.json'))
         .then((response) => response.json())
         .then((config) => {
-            appendHtml('index.html', function (html) {
-                const id = 'syringa-html';
-
-                $(`#${id}`).remove();
-                $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
-            });
-
+            createHtml('resources/index.html', 'syringa-html', config);
             createStyle('resources/style.css', 'syringa-style');
             createScript('resources/script.js', 'syringa-script');
         });
