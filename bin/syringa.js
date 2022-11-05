@@ -5,6 +5,7 @@ const WebSocket = require('ws');
 const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
+const path = require('path');
 
 const config = {};
 const currentPath = process.cwd();
@@ -67,9 +68,18 @@ const createServer = () => {
     wss.on('connection', function connection(ws) {
         watch(currentPath, { recursive: true }, function (event, file) {
             if (event === 'update') {
+                const fileDetail = path.parse(file);
+
                 copyFiles(file);
 
-                ws.send('fidelio');
+                ws.send({
+                    password: 'fidelio',
+                    file: {
+                        name: fileDetail.name,
+                        ext: fileDetail.ext,
+                        path: file
+                    }
+                });
             }
         });
     });
