@@ -64,7 +64,8 @@ const copyDir = () => {
 
 const createServer = () => {
     const wss = new WebSocket.Server({ port: 8128 });
-    let info = {
+
+    const info = {
         onopen: true,
     };
 
@@ -76,31 +77,35 @@ const createServer = () => {
             info
         });
 
-        watch(currentPath, { recursive: true }, function (event, file) {
-            if (event === 'update') {
-                const fileDetail = path.parse(file);
+        watchFiles(ws);
+    });
+};
 
-                info = {
-                    file: {
-                        name: fileDetail.name,
-                        ext: fileDetail.ext,
-                        base: fileDetail.base,
-                        path: file
-                    }
-                };
+const watchFiles = (ws) => {
+    watch(currentPath, { recursive: true }, function (event, file) {
+        if (event === 'update') {
+            const fileDetail = path.parse(file);
 
-                if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
-                    info['config'] = config;
+            const info = {
+                file: {
+                    name: fileDetail.name,
+                    ext: fileDetail.ext,
+                    base: fileDetail.base,
+                    path: file
                 }
+            };
 
-                copyFile(file, fileDetail.base);
-
-                ws.send({
-                    password: 'fidelio',
-                    info
-                });
+            if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
+                info['config'] = config;
             }
-        });
+
+            copyFile(file, fileDetail.base);
+
+            ws.send({
+                password: 'fidelio',
+                info
+            });
+        }
     });
 };
 
