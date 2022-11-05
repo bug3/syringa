@@ -96,6 +96,8 @@ const watchFiles = (ws) => {
             };
 
             if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
+                readConfig();
+
                 info['config'] = config;
             }
 
