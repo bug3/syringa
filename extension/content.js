@@ -47,14 +47,12 @@ const inject = function () {
         });
 };
 
-socket.onopen = function () {
-    createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
-
-    inject();
-};
-
 socket.onmessage = function (event) {
-    if (event.data === 'fidelio') {
-        inject();
+    if (event.data.password === 'fidelio') {
+        if (event.data.onopen) {
+            createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
+
+            inject();
+        }
     }
 };
