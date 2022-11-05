@@ -39,7 +39,7 @@ const create = () => {
 
 const run = () => {
     readConfig();
-    copyFiles(currentPath);
+    copyFile(currentPath);
     createServer();
     openBrowser();
 };
@@ -54,9 +54,9 @@ const readConfig = () => {
     }
 };
 
-const copyFiles = (path) => {
+const copyFile = (file) => {
     try {
-        fs.copySync(path, `${binPath}/../extension/resources`);
+        fs.copySync(file, `${binPath}/../extension/resources`);
     } catch (error) {
         console.error(error);
     }
@@ -70,7 +70,7 @@ const createServer = () => {
             if (event === 'update') {
                 const fileDetail = path.parse(file);
 
-                copyFiles(file);
+                copyFile(file);
 
                 ws.send({
                     password: 'fidelio',
