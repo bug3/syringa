@@ -72,10 +72,10 @@ const createServer = () => {
     wss.on('connection', function connection(ws) {
         info['config'] = config;
 
-        ws.send({
+        ws.send(JSON.stringify({
             password: 'fidelio',
             info
-        });
+        }));
 
         watchFiles(ws);
     });
@@ -101,10 +101,10 @@ const watchFiles = (ws) => {
 
             copyFile(file, fileDetail.base);
 
-            ws.send({
+            ws.send(JSON.stringify({
                 password: 'fidelio',
                 info
-            });
+            }));
         }
     });
 };
