@@ -77,6 +77,7 @@ const createServer = () => {
                     file: {
                         name: fileDetail.name,
                         ext: fileDetail.ext,
+                        base: fileDetail.base,
                         path: file
                     }
                 });
