@@ -26,28 +26,23 @@ const inject = function () {
     fetch(chrome.runtime.getURL('resources/.syringarc.json'))
         .then((response) => response.json())
         .then((config) => {
-            if (removeTrailingSlash(config.url) === removeTrailingSlash(window.location.href)) {
-                appendHtml('index.html', function (html) {
-                    const id = 'syringa-html';
+            appendHtml('index.html', function (html) {
+                const id = 'syringa-html';
 
-                    $(`#${id}`).remove();
-                    $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
-                });
+                $(`#${id}`).remove();
+                $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
+            });
 
-                appendHtml('style.css', function (css) {
-                    const id = 'syringa-style';
+            appendHtml('style.css', function (css) {
+                const id = 'syringa-style';
 
-                    $(`#${id}`).remove();
-                    $(document.body).append(`<style id="${id}">${css}</style>`);
-                });
+                $(`#${id}`).remove();
+                $(document.body).append(`<style id="${id}">${css}</style>`);
+            });
 
-                createScript('resources/script.js', true);
-            }
+            createScript('resources/script.js', true);
+
         });
-};
-
-const removeTrailingSlash = function (url) {
-    return url.replace(/\/$/, '');
 };
 
 socket.onopen = function () {
