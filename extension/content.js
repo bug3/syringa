@@ -8,16 +8,25 @@ const appendHtml = function (fileName, callback) {
         });
 };
 
-const createScript = function (file, reload) {
+const createStyle = function (file, id) {
+    const style = document.createElement('link');
+
+    style.id = id;
+    style.rel = 'stylesheet';
+    style.href = chrome.runtime.getURL(file);
+
+    $(`#${style.id}`).remove();
+
+    document.body.append(style);
+};
+
+const createScript = function (file, id) {
     const script = document.createElement('script');
 
+    script.id = id;
     script.src = chrome.runtime.getURL(file);
 
-    if (reload) {
-        script.id = 'syringa-script';
-
-        $(`#${script.id}`).remove();
-    }
+    $(`#${script.id}`).remove();
 
     document.body.append(script);
 };
@@ -33,20 +42,13 @@ const inject = function () {
                 $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
             });
 
-            appendHtml('style.css', function (css) {
-                const id = 'syringa-style';
-
-                $(`#${id}`).remove();
-                $(document.body).append(`<style id="${id}">${css}</style>`);
-            });
-
-            createScript('resources/script.js', true);
-
+            createStyle('resources/style.css', 'syringa-style');
+            createScript('resources/script.js', 'syringa-script');
         });
 };
 
 socket.onopen = function () {
-    createScript('lib/jquery-3.6.1.min.js', false);
+    createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
 
     inject();
 };
