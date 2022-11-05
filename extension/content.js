@@ -43,12 +43,23 @@ socket.onmessage = function (event) {
             createStyle('resources/style.css', 'syringa-style');
             createScript('resources/script.js', 'syringa-script');
         } else {
-            if (data.info.file.ext === '.html' || data.info.file.ext === '.json') {
-                createHtml('resources/index.html', 'syringa-html', data.info.config);
-            } else if (data.info.file.ext === '.css') {
-                createStyle('resources/style.css', 'syringa-style');
-            } else if (data.info.file.ext === '.js') {
-                createScript('resources/script.js', 'syringa-script');
+            switch (data.info.file.ext) {
+                case '.html':
+                    createHtml('resources/index.html', 'syringa-html', data.info.config);
+
+                    break;
+                case '.css':
+                    createStyle('resources/style.css', 'syringa-style');
+
+                    break;
+                case '.js':
+                    createScript('resources/script.js', 'syringa-script');
+
+                    break;
+                default:
+                    createHtml('resources/index.html', 'syringa-html', data.info.config);
+
+                    break;
             }
         }
     }
