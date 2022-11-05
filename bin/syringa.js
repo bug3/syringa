@@ -38,7 +38,7 @@ const create = () => {
 
 const run = () => {
     readConfig();
-    copyFiles();
+    copyFiles(currentPath);
     createServer();
     openBrowser();
 };
@@ -53,9 +53,9 @@ const readConfig = () => {
     }
 };
 
-const copyFiles = () => {
+const copyFiles = (path) => {
     try {
-        fs.copySync(currentPath, `${binPath}/../extension/resources`);
+        fs.copySync(path, `${binPath}/../extension/resources`);
     } catch (error) {
         console.error(error);
     }
@@ -65,10 +65,12 @@ const createServer = () => {
     const wss = new WebSocket.Server({ port: 8128 });
 
     wss.on('connection', function connection(ws) {
-        watch(currentPath, { recursive: true }, function () {
-            copyFiles();
+        watch(currentPath, { recursive: true }, function (event, file) {
+            if (event === 'update') {
+                copyFiles(file);
 
-            ws.send('fidelio');
+                ws.send('fidelio');
+            }
         });
     });
 };
