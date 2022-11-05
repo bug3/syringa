@@ -64,22 +64,40 @@ const copyDir = () => {
 
 const createServer = () => {
     const wss = new WebSocket.Server({ port: 8128 });
+    let info = {
+        onopen: true,
+    };
 
     wss.on('connection', function connection(ws) {
+        info['config'] = config;
+
+        ws.send({
+            password: 'fidelio',
+            info
+        });
+
         watch(currentPath, { recursive: true }, function (event, file) {
             if (event === 'update') {
                 const fileDetail = path.parse(file);
 
-                copyFile(file, fileDetail.base);
-
-                ws.send({
-                    password: 'fidelio',
+                info = {
                     file: {
                         name: fileDetail.name,
                         ext: fileDetail.ext,
                         base: fileDetail.base,
                         path: file
                     }
+                };
+
+                if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
+                    info['config'] = config;
+                }
+
+                copyFile(file, fileDetail.base);
+
+                ws.send({
+                    password: 'fidelio',
+                    info
                 });
             }
         });
