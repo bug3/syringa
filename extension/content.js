@@ -32,22 +32,14 @@ const createScript = function (file, id) {
     document.body.append(script);
 };
 
-const inject = function () {
-    fetch(chrome.runtime.getURL('resources/.syringarc.json'))
-        .then((response) => response.json())
-        .then((config) => {
-            createHtml('resources/index.html', 'syringa-html', config);
-            createStyle('resources/style.css', 'syringa-style');
-            createScript('resources/script.js', 'syringa-script');
-        });
-};
-
 socket.onmessage = function (event) {
     if (event.data.password === 'fidelio') {
         if (event.data.onopen) {
             createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
 
-            inject();
+            createHtml('resources/index.html', 'syringa-html', event.data.info.config);
+            createStyle('resources/style.css', 'syringa-style');
+            createScript('resources/script.js', 'syringa-script');
         }
     }
 };
