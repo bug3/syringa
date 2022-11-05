@@ -7,6 +7,8 @@ const open = require('open');
 const fs = require('fs-extra');
 
 const config = {};
+const currentPath = process.cwd();
+const binPath = __dirname;
 
 const main = () => {
     cli.name('syringa').description('The Live Injector').version('0.0.8');
@@ -29,7 +31,7 @@ const main = () => {
 const create = () => {
     const projectName = cli.args[1];
 
-    fs.copy(`${__dirname}/../default`, `${process.cwd()}/${projectName}`)
+    fs.copy(`${binPath}/../default`, `${currentPath}/${projectName}`)
         .then(() => console.log(`${projectName} created`))
         .catch((error) => console.error(error));
 };
@@ -43,7 +45,7 @@ const run = () => {
 
 const readConfig = () => {
     try {
-        const jsonString = fs.readFileSync(`${process.cwd()}/.syringarc.json`);
+        const jsonString = fs.readFileSync(`${currentPath}/.syringarc.json`);
 
         Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
@@ -53,7 +55,7 @@ const readConfig = () => {
 
 const copyFiles = () => {
     try {
-        fs.copySync(process.cwd(), `${__dirname}/../extension/resources`);
+        fs.copySync(currentPath, `${binPath}/../extension/resources`);
     } catch (error) {
         console.error(error);
     }
@@ -63,7 +65,7 @@ const createServer = () => {
     const wss = new WebSocket.Server({ port: 8128 });
 
     wss.on('connection', function connection(ws) {
-        watch(process.cwd(), { recursive: true }, function () {
+        watch(currentPath, { recursive: true }, function () {
             copyFiles();
 
             ws.send('fidelio');
@@ -75,7 +77,7 @@ const openBrowser = () => {
     const cmdArgs = [];
 
     if (config.options.autoLoad) {
-        cmdArgs.push(`--load-extension=${`${__dirname}/../extension`}`);
+        cmdArgs.push(`--load-extension=${`${binPath}/../extension`}`);
     }
 
     if (config.incognito) {
