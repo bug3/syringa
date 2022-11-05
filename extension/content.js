@@ -33,11 +33,13 @@ const createScript = function (file, id) {
 };
 
 socket.onmessage = function (event) {
-    if (event.data.password === 'fidelio') {
-        if (event.data.onopen) {
+    const data = JSON.parse(event.data);
+
+    if (data.password === 'fidelio') {
+        if (data.info.onopen) {
             createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
 
-            createHtml('resources/index.html', 'syringa-html', event.data.info.config);
+            createHtml('resources/index.html', 'syringa-html', data.info.config);
             createStyle('resources/style.css', 'syringa-style');
             createScript('resources/script.js', 'syringa-script');
         }
