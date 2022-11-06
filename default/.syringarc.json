@@ -1,5 +1,5 @@
 {
-    "url": "https://www.google.com",
+    "startUrl": "https://www.google.com",
     "browser": "chrome",
     "incognito": false,
     "html": {

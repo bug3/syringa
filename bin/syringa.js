@@ -130,7 +130,7 @@ const openBrowser = () => {
         cmdArgs.push('--incognito');
     }
 
-    open(config.url, {
+    open(config.startUrl, {
         app: { name: open.apps[config.browser], arguments: cmdArgs }
     });
 };
