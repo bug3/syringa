@@ -5,5 +5,10 @@
     "html": {
         "selector": ".RNNXgb",
         "method": "after"
+    },
+    "extension": {
+        "matches": [
+            "https://www.google.com"
+        ]
     }
 }
