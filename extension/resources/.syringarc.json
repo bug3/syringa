@@ -1,9 +1,0 @@
-{
-    "url": "",
-    "browser": "chrome",
-    "incognito": false,
-    "html": {
-        "selector": "body",
-        "method": "append"
-    }
-}
