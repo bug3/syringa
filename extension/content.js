@@ -1,6 +1,6 @@
 const socket = new WebSocket('ws://localhost:8128');
 
-const createHtml = function (file, id, config) {
+const createHtml = (file, id, config) => {
     fetch(chrome.runtime.getURL(file))
         .then((response) => response.text())
         .then((html) => {
@@ -9,7 +9,7 @@ const createHtml = function (file, id, config) {
         });
 };
 
-const createStyle = function (file, id) {
+const createStyle =  (file, id) => {
     const style = document.createElement('link');
 
     style.id = id;
@@ -21,7 +21,7 @@ const createStyle = function (file, id) {
     document.body.append(style);
 };
 
-const createScript = function (file, id) {
+const createScript = (file, id) => {
     const script = document.createElement('script');
 
     script.id = id;
@@ -32,13 +32,12 @@ const createScript = function (file, id) {
     document.body.append(script);
 };
 
-socket.onmessage = function (event) {
+socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     if (data.password === 'fidelio') {
         if (data.info.onopen) {
             createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
-
             createHtml('resources/index.html', 'syringa-html', data.info.config);
             createStyle('resources/style.css', 'syringa-style');
             createScript('resources/script.js', 'syringa-script');
