@@ -12,7 +12,7 @@ const currentPath = process.cwd();
 const binPath = __dirname;
 
 const main = () => {
-    cli.name('syringa').description('The Live Injector').version('0.0.8');
+    cli.name('syringa').description('The Live Injector').version('0.1.0');
 
     cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
     cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
