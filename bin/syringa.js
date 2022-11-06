@@ -39,6 +39,7 @@ const create = () => {
 
 const run = () => {
     readConfig();
+    editManifest();
     copyDir();
     createServer();
     openBrowser();
@@ -49,6 +50,19 @@ const readConfig = () => {
         const jsonString = fs.readFileSync(`${currentPath}/.syringarc.json`);
 
         Object.assign(config, JSON.parse(jsonString));
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const editManifest = () => {
+    try {
+        const manifestFile = `${binPath}/../extension/manifest.json`;
+        const manifestData = fs.readJsonSync(manifestFile);
+
+        manifestData['content_scripts'][0].matches = config.extension.matches;
+
+        fs.writeJsonSync(manifestFile, manifestData, { spaces: 4 });
     } catch (error) {
         console.error(error);
     }
@@ -97,6 +111,7 @@ const watchFiles = (ws) => {
 
             if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
                 readConfig();
+                editManifest();
 
                 info['config'] = config;
             }
