@@ -87,15 +87,15 @@ const copyDir = () => {
 
             switch (fileDetail.ext) {
                 case '.html':
-                    server.files.html.push(file);
+                    server.files.html.push(fileDetail.name);
 
                     break;
                 case '.css':
-                    server.files.css.push(file);
+                    server.files.css.push(fileDetail.name);
 
                     break;
                 case '.js':
-                    server.files.js.push(file);
+                    server.files.js.push(fileDetail.name);
 
                     break;
             }
