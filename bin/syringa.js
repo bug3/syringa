@@ -70,7 +70,37 @@ const editManifest = () => {
 
 const copyDir = () => {
     try {
-        fs.copySync(currentPath, `${binPath}/../extension/resources`);
+        const resourcesDir = `${binPath}/../extension/resources`;
+        const server = {
+            onCreate: true,
+            files: {
+                html: [],
+                css: [],
+                js: []
+            }
+        };
+
+        fs.copySync(currentPath, resourcesDir);
+        fs.readdirSync(currentPath).forEach((file) => {
+            const fileDetail = path.parse(file);
+
+            switch (fileDetail.ext) {
+                case '.html':
+                    server.files.html.push(file);
+
+                    break;
+                case '.css':
+                    server.files.css.push(file);
+
+                    break;
+                case '.js':
+                    server.files.js.push(file);
+
+                    break;
+            }
+        });
+
+        Object.assign(config, server);
     } catch (error) {
         console.error(error);
     }
@@ -79,16 +109,10 @@ const copyDir = () => {
 const createServer = () => {
     const wss = new WebSocket.Server({ port: 8128 });
 
-    const info = {
-        onopen: true,
-    };
-
     wss.on('connection', function connection(ws) {
-        info['config'] = config;
-
         ws.send(JSON.stringify({
             password: 'fidelio',
-            info
+            config
         }));
 
         watchFiles(ws);
@@ -99,29 +123,35 @@ const watchFiles = (ws) => {
     watch(currentPath, { recursive: true }, function (event, file) {
         if (event === 'update') {
             const fileDetail = path.parse(file);
+            const extension = fileDetail.ext.replace('.', '');
+            const isConfigFile = fileDetail.base === '.syringarc.json';
 
-            const info = {
-                file: {
-                    name: fileDetail.name,
-                    ext: fileDetail.ext,
-                    base: fileDetail.base,
-                    path: file
+            config.onCreate = isConfigFile;
+
+            if ((config.files[extension] || []).includes(fileDetail.base) || isConfigFile) {
+
+                config['changes'] = {
+                    file: {
+                        name: fileDetail.name,
+                        ext: fileDetail.ext,
+                        base: fileDetail.base,
+                        path: file
+                    }
+                };
+
+                if (isConfigFile) {
+                    readConfig();
+                    editManifest();
+                    copyDir();
                 }
-            };
 
-            if (fileDetail.base === 'index.html' || fileDetail.base === '.syringarc.json') {
-                readConfig();
-                editManifest();
+                copyFile(file, fileDetail.base);
 
-                info['config'] = config;
+                ws.send(JSON.stringify({
+                    password: 'fidelio',
+                    config
+                }));
             }
-
-            copyFile(file, fileDetail.base);
-
-            ws.send(JSON.stringify({
-                password: 'fidelio',
-                info
-            }));
         }
     });
 };
