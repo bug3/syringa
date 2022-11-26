@@ -29,6 +29,6 @@
 		}
 	],
 	"permissions": [
-		"activeTab"
+		"tabs"
 	]
 }
