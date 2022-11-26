@@ -2,13 +2,24 @@
     "startUrl": "https://www.google.com",
     "browser": "chrome",
     "incognito": false,
-    "html": {
-        "selector": ".RNNXgb",
-        "method": "after"
-    },
     "extension": {
         "matches": [
             "https://www.google.com/"
+        ]
+    },
+    "codes": {
+        "html": [
+            {
+                "file": "index.html",
+                "selector": ".RNNXgb",
+                "method": "after"
+            }
+        ],
+        "css": [
+            "style.css"
+        ],
+        "js": [
+            "script.js"
         ]
     }
 }
