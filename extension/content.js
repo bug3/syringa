@@ -1,62 +1,76 @@
 const socket = new WebSocket('ws://localhost:8128');
 
-const createHtml = (file, id, config) => {
+const createHtml = (file, className, element) => {
     fetch(chrome.runtime.getURL(file))
         .then((response) => response.text())
         .then((html) => {
-            $(`#${id}`).remove();
-            $(config.html.selector)[config.html.method](`<div id="${id}">${html}</div>`);
+            $(`.syringa-${className}`).remove();
+            $(element.selector)[element.method](`<div class="syringa-${className}">${html}</div>`);
         });
 };
 
-const createStyle =  (file, id) => {
+const createStyle =  (file, className) => {
     const style = document.createElement('link');
 
-    style.id = id;
+    style.className = `syringa-${className}`;
     style.rel = 'stylesheet';
     style.href = chrome.runtime.getURL(file);
 
-    $(`#${style.id}`).remove();
+    $(`.syringa-${className}`).remove();
 
     document.body.append(style);
 };
 
-const createScript = (file, id) => {
+const createScript = (file, className) => {
     const script = document.createElement('script');
 
-    script.id = id;
+    script.className = `syringa-${className}`;
     script.src = chrome.runtime.getURL(file);
 
-    $(`#${script.id}`).remove();
+    $(`.syringa-${className}`).remove();
 
     document.body.append(script);
 };
 
+socket.onopen = (event) => {
+    if (event.isTrusted) {
+        createScript('lib/jquery-3.6.1.min.js', 'jquery');
+    }
+};
+
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
+    const { config } = data;
 
-    if (data.password === 'fidelio') {
-        if (data.info.onopen) {
-            createScript('lib/jquery-3.6.1.min.js', 'syringa-jquery');
-            createHtml('resources/index.html', 'syringa-html', data.info.config);
-            createStyle('resources/style.css', 'syringa-style');
-            createScript('resources/script.js', 'syringa-script');
+    if (event.isTrusted && data.password === 'fidelio') {
+        if (config.onCreate) {
+            config.files.html.forEach((file) => {
+                createHtml(`resources/${file}.html`, file,
+                    config.codes.html.find((x) => x.file === `${file}.html`));
+            });
+
+            config.files.css.forEach((file) => {
+                createStyle(`resources/${file}.css`, file);
+            });
+
+            config.files.js.forEach((file) => {
+                createScript(`resources/${file}.js`, file);
+            });
         } else {
-            switch (data.info.file.ext) {
+            const { file } = config.changes;
+
+            switch (file.ext) {
                 case '.html':
-                    createHtml('resources/index.html', 'syringa-html', data.info.config);
+                    createHtml(`resources/${file.base}`, file.name,
+                        config.codes.html.find((x) => x.file === `${file.base}`));
 
                     break;
                 case '.css':
-                    createStyle('resources/style.css', 'syringa-style');
+                    createStyle(`resources/${file.base}`, file.name);
 
                     break;
                 case '.js':
-                    createScript('resources/script.js', 'syringa-script');
-
-                    break;
-                default:
-                    createHtml('resources/index.html', 'syringa-html', data.info.config);
+                    createScript(`resources/${file.base}`, file.name);
 
                     break;
             }
