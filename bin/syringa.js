@@ -8,6 +8,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 const config = {};
+const configFile = '.syringarc.json';
 const currentPath = process.cwd();
 const binPath = __dirname;
 
@@ -19,10 +20,10 @@ const main = () => {
         .action((options) => {
             config.options = options;
 
-            if (fs.existsSync('.syringarc.json')) {
+            if (fs.existsSync(configFile)) {
                 run(options);
             } else {
-                console.error('.syringarc.json file not found');
+                console.error(`${configFile} file not found`);
             }
         });
 
@@ -47,7 +48,7 @@ const run = () => {
 
 const readConfig = () => {
     try {
-        const jsonString = fs.readFileSync(`${currentPath}/.syringarc.json`);
+        const jsonString = fs.readFileSync(`${currentPath}/${configFile}`);
 
         Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
@@ -124,7 +125,7 @@ const watchFiles = (ws) => {
         if (event === 'update') {
             const fileDetail = path.parse(file);
             const extension = fileDetail.ext.replace('.', '');
-            const isConfigFile = fileDetail.base === '.syringarc.json';
+            const isConfigFile = (fileDetail.base === configFile);
 
             config.onCreate = isConfigFile;
 
