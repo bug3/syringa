@@ -18,6 +18,7 @@ const main = () => {
     cli.name('syringa').description('The Live Injector').version('0.1.0');
 
     cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
+    cli.command('create-config').action(createConfig).description('create config file');
     cli.command('run').description('run the project').option('--auto-load', 'no extension load required')
         .action((options) => {
             config.options = options;
@@ -37,6 +38,12 @@ const create = () => {
 
     fs.copy(`${binPath}/../default`, `${currentPath}/${projectName}`)
         .then(() => console.log(`${projectName} created`))
+        .catch((error) => console.error(error));
+};
+
+const createConfig = () => {
+    fs.copy(`${binPath}/../default/${configFile}`, `${currentPath}/${configFile}`)
+        .then(() => console.log(`${configFile} created`))
         .catch((error) => console.error(error));
 };
 
@@ -185,7 +192,7 @@ const openBrowser = () => {
         }
     }
 
-    if (config.incognito && !config.options.autoLoad) {
+    if (config.incognito) {
         cmdArgs.push('--incognito');
     }
 
