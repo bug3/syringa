@@ -6,8 +6,10 @@ const watch = require('node-watch');
 const open = require('open');
 const fs = require('fs-extra');
 const path = require('path');
+const os = require('os');
 
 const config = {};
+const tempPrefix = 'syringa-temp';
 const configFile = '.syringarc.json';
 const currentPath = process.cwd();
 const binPath = __dirname;
@@ -170,9 +172,20 @@ const openBrowser = () => {
 
     if (config.options.autoLoad) {
         cmdArgs.push(`--load-extension=${`${binPath}/../extension`}`);
+
+        try {
+            const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), tempPrefix));
+
+            cmdArgs.push(`--user-data-dir=${tempDir}`);
+            cmdArgs.push('--no-first-run');
+            cmdArgs.push('--no-default-browser-check');
+            cmdArgs.push('--start-maximized');
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    if (config.incognito) {
+    if (config.incognito && !config.options.autoLoad) {
         cmdArgs.push('--incognito');
     }
 
