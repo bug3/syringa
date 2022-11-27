@@ -74,10 +74,6 @@ If you get an error like this: **EACCES: permission denied**. The following code
     sudo chown -R $USER $(echo $(npm root -g)/syringa)
     ```
 
-## Note
-
-* Browser windows must be closed to use the **Auto-Load** feature.
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
