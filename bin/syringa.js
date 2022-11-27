@@ -129,7 +129,7 @@ const watchFiles = (ws) => {
 
             config.onCreate = isConfigFile;
 
-            if ((config.files[extension] || []).includes(fileDetail.base) || isConfigFile) {
+            if ((config.files[extension] || []).includes(fileDetail.name) || isConfigFile) {
 
                 config['changes'] = {
                     file: {
