@@ -45,7 +45,7 @@ npm install -g syringa
     -   **Get extension path:**
 
         ```bash
-        echo $(npm list -g | head -1)/node_modules/syringa/extension
+        echo "$(npm root -g)/syringa/extension"
         ```
 
 ## Incognito Mode
@@ -71,7 +71,7 @@ If you get an error like this: **EACCES: permission denied**. The following code
 -   Change Owner:
 
     ```bash
-    sudo chown -R $USER $(echo $(npm list -g | head -1)/node_modules/syringa)
+    sudo chown -R $USER $(echo $(npm root -g)/syringa)
     ```
 
 ## Note
