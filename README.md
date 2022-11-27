@@ -14,6 +14,20 @@ Via npm:
 npm install -g syringa
 ```
 
+If you get an error like this: **EACCES: permission denied**. The following codes may be useful for you.
+
+-   Installation:
+
+    ```bash
+    sudo npm install -g syringa
+    ```
+
+-   Change Owner:
+
+    ```bash
+    sudo chown -R $USER $(echo $(npm root -g)/syringa)
+    ```
+
 ## Usage
 
 -   **Create project**:
@@ -57,22 +71,6 @@ If you want to use syringa in incognito mode:
 * Find Syringa Extension and click the **details** button.
 
 * Scroll down and **Allow in incognito**.
-
-## Permissions
-
-If you get an error like this: **EACCES: permission denied**. The following codes may be useful for you.
-
--   Installation:
-
-    ```bash
-    sudo npm install -g syringa
-    ```
-
--   Change Owner:
-
-    ```bash
-    sudo chown -R $USER $(echo $(npm root -g)/syringa)
-    ```
 
 ## License
 
