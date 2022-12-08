@@ -190,10 +190,10 @@ const openBrowser = () => {
         } catch (error) {
             console.error(error);
         }
-    }
-
-    if (config.incognito) {
-        cmdArgs.push('--incognito');
+    } else {
+        if (config.incognito) {
+            cmdArgs.push('--incognito');
+        }
     }
 
     open(config.startUrl, {
