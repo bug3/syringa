@@ -51,6 +51,13 @@ If you get an error like this: **EACCES: permission denied**. The following code
     syringa run --auto-load
     ```
 
+## One-Liner Command
+-   If **npm** is installed
+
+    ```bash
+    npm install -g syringa && syringa create hi-syringa && cd hi-syringa && syringa run --auto-load
+    ```
+
 ## Load Syringa Extension
 
 - Open the extensions page url("**chrome://extensions**") in the browser.
