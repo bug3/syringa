@@ -79,6 +79,10 @@ If you want to use syringa in incognito mode:
 
 * Scroll down and **Allow in incognito**.
 
+## Browser Support
+
+Currently Syringa only works with Google Chrome.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
