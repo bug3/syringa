@@ -15,7 +15,7 @@ const currentPath = process.cwd();
 const binPath = __dirname;
 
 const main = () => {
-    cli.name('syringa').description('The Live Injector').version('0.1.3');
+    cli.name('syringa').description('The Live Injector').version('0.1.5');
 
     cli.command('create').argument('<project-name>', 'project name').action(create).description('create new project');
     cli.command('create-config').action(createConfig).description('create config file');
