@@ -84,30 +84,26 @@ const copyDir = () => {
         const server = {
             onCreate: true,
             files: {
-                html: [],
-                css: [],
-                js: []
+                html: config.codes.html.map((w) => w.file),
+                css: config.codes.css,
+                js: config.codes.js
             }
         };
 
-        fs.copySync(currentPath, resourcesDir);
-        fs.readdirSync(currentPath).forEach((file) => {
-            const fileDetail = path.parse(file);
+        fs.copySync(`${ currentPath }/${ configFile }`, `${ resourcesDir }/${ configFile }`);
 
-            switch (fileDetail.ext) {
-                case '.html':
-                    server.files.html.push(fileDetail.name);
+        Object.keys(server.files).forEach((key) => {
+            server.files[key].forEach((file, index) => {
+                server.files[key][index] = path.parse(file).name;
 
-                    break;
-                case '.css':
-                    server.files.css.push(fileDetail.name);
+                if (fs.existsSync(`${ currentPath }/${ file }`)) {
+                    fs.copySync(`${ currentPath }/${ file }`, `${ resourcesDir }/${ file }`);
+                } else {
+                    console.error(`${ file } file not found`);
 
-                    break;
-                case '.js':
-                    server.files.js.push(fileDetail.name);
-
-                    break;
-            }
+                    process.exit(1);
+                }
+            });
         });
 
         Object.assign(config, server);
@@ -139,7 +135,6 @@ const watchFiles = (ws) => {
             config.onCreate = isConfigFile;
 
             if ((config.files[extension] || []).includes(fileDetail.name) || isConfigFile) {
-
                 config['changes'] = {
                     file: {
                         name: fileDetail.name,
