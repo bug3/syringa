@@ -1,1 +1,1 @@
-$('.gLFyf.gsfi').val('bug3 syringa');
+$('.gLFyf').val('bug3 syringa');
