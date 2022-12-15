@@ -99,7 +99,7 @@ const copyDir = () => {
                 if (fs.existsSync(`${ currentPath }/${ file }`)) {
                     fs.copySync(`${ currentPath }/${ file }`, `${ resourcesDir }/${ file }`);
                 } else {
-                    console.error(`${ file } file not found`);
+                    console.error(`${ file } not found`);
 
                     process.exit(1);
                 }
@@ -135,6 +135,7 @@ const watchFiles = (ws) => {
             config.onCreate = isConfigFile;
 
             if ((config.files[extension] || []).includes(fileDetail.name) || isConfigFile) {
+
                 config['changes'] = {
                     file: {
                         name: fileDetail.name,
