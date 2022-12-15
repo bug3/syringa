@@ -26,7 +26,7 @@ const main = () => {
             if (fs.existsSync(configFile)) {
                 run(options);
             } else {
-                console.error(`${configFile} file not found`);
+                console.error(`${ configFile } file not found`);
             }
         });
 
@@ -36,14 +36,14 @@ const main = () => {
 const create = () => {
     const projectName = cli.args[1];
 
-    fs.copy(`${binPath}/../default`, `${currentPath}/${projectName}`)
-        .then(() => console.log(`${projectName} created`))
+    fs.copy(`${ binPath }/../default`, `${ currentPath }/${ projectName }`)
+        .then(() => console.log(`${ projectName } created`))
         .catch((error) => console.error(error));
 };
 
 const createConfig = () => {
-    fs.copy(`${binPath}/../default/${configFile}`, `${currentPath}/${configFile}`)
-        .then(() => console.log(`${configFile} created`))
+    fs.copy(`${ binPath }/../default/${ configFile }`, `${ currentPath }/${ configFile }`)
+        .then(() => console.log(`${ configFile } created`))
         .catch((error) => console.error(error));
 };
 
@@ -57,7 +57,7 @@ const run = () => {
 
 const readConfig = () => {
     try {
-        const jsonString = fs.readFileSync(`${currentPath}/${configFile}`);
+        const jsonString = fs.readFileSync(`${ currentPath }/${ configFile }`);
 
         Object.assign(config, JSON.parse(jsonString));
     } catch (error) {
@@ -67,7 +67,7 @@ const readConfig = () => {
 
 const editManifest = () => {
     try {
-        const manifestFile = `${binPath}/../extension/manifest.json`;
+        const manifestFile = `${ binPath }/../extension/manifest.json`;
         const manifestData = fs.readJsonSync(manifestFile);
 
         manifestData['content_scripts'][0].matches = config.extension.matches;
@@ -80,7 +80,7 @@ const editManifest = () => {
 
 const copyDir = () => {
     try {
-        const resourcesDir = `${binPath}/../extension/resources`;
+        const resourcesDir = `${ binPath }/../extension/resources`;
         const server = {
             onCreate: true,
             files: {
@@ -168,7 +168,7 @@ const watchFiles = (ws) => {
 
 const copyFile = (file, fileBase) => {
     try {
-        fs.copySync(file, `${binPath}/../extension/resources/${fileBase}`);
+        fs.copySync(file, `${ binPath }/../extension/resources/${ fileBase }`);
     } catch (error) {
         console.error(error);
     }
@@ -178,12 +178,12 @@ const openBrowser = () => {
     const cmdArgs = [];
 
     if (config.options.autoLoad) {
-        cmdArgs.push(`--load-extension=${`${binPath}/../extension`}`);
+        cmdArgs.push(`--load-extension=${ `${ binPath }/../extension` }`);
 
         try {
             const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), tempPrefix));
 
-            cmdArgs.push(`--user-data-dir=${tempDir}`);
+            cmdArgs.push(`--user-data-dir=${ tempDir }`);
             cmdArgs.push('--no-first-run');
             cmdArgs.push('--no-default-browser-check');
             cmdArgs.push('--start-maximized');

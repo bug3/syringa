@@ -4,19 +4,19 @@ const createHtml = (file, className, element) => {
     fetch(chrome.runtime.getURL(file))
         .then((response) => response.text())
         .then((html) => {
-            $(`.syringa-${className}`).remove();
-            $(element.selector)[element.method](`<div class="syringa-${className}">${html}</div>`);
+            $(`.syringa-${ className }`).remove();
+            $(element.selector)[element.method](`<div class="syringa-${ className }">${ html }</div>`);
         });
 };
 
 const createStyle =  (file, className) => {
     const style = document.createElement('link');
 
-    style.className = `syringa-${className}`;
+    style.className = `syringa-${ className }`;
     style.rel = 'stylesheet';
     style.href = chrome.runtime.getURL(file);
 
-    $(`.syringa-${className}`).remove();
+    $(`.syringa-${ className }`).remove();
 
     document.body.append(style);
 };
@@ -24,10 +24,10 @@ const createStyle =  (file, className) => {
 const createScript = (file, className) => {
     const script = document.createElement('script');
 
-    script.className = `syringa-${className}`;
+    script.className = `syringa-${ className }`;
     script.src = chrome.runtime.getURL(file);
 
-    $(`.syringa-${className}`).remove();
+    $(`.syringa-${ className }`).remove();
 
     document.body.append(script);
 };
@@ -45,32 +45,32 @@ socket.onmessage = (event) => {
     if (event.isTrusted && data.password === 'fidelio') {
         if (config.onCreate) {
             config.files.html.forEach((file) => {
-                createHtml(`resources/${file}.html`, file,
-                    config.codes.html.find((x) => x.file === `${file}.html`));
+                createHtml(`resources/${ file }.html`, file,
+                    config.codes.html.find((x) => x.file === `${ file }.html`));
             });
 
             config.files.css.forEach((file) => {
-                createStyle(`resources/${file}.css`, file);
+                createStyle(`resources/${ file }.css`, file);
             });
 
             config.files.js.forEach((file) => {
-                createScript(`resources/${file}.js`, file);
+                createScript(`resources/${ file }.js`, file);
             });
         } else {
             const { file } = config.changes;
 
             switch (file.ext) {
                 case '.html':
-                    createHtml(`resources/${file.base}`, file.name,
-                        config.codes.html.find((x) => x.file === `${file.base}`));
+                    createHtml(`resources/${ file.base }`, file.name,
+                        config.codes.html.find((x) => x.file === `${ file.base }`));
 
                     break;
                 case '.css':
-                    createStyle(`resources/${file.base}`, file.name);
+                    createStyle(`resources/${ file.base }`, file.name);
 
                     break;
                 case '.js':
-                    createScript(`resources/${file.base}`, file.name);
+                    createScript(`resources/${ file.base }`, file.name);
 
                     break;
             }
