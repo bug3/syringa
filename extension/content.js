@@ -1,4 +1,5 @@
 const socket = new WebSocket('ws://localhost:8128');
+let onOpen = false;
 
 const createHtml = (file, className, element) => {
     fetch(chrome.runtime.getURL(file))
@@ -33,6 +34,8 @@ const createScript = (file, className) => {
 };
 
 socket.onopen = (event) => {
+    onOpen = true;
+
     if (event.isTrusted) {
         createScript('lib/jquery-3.6.1.min.js', 'jquery');
     }
@@ -42,8 +45,10 @@ socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const { config } = data;
 
-    if (event.isTrusted && data.password === 'fidelio') {
-        if (config.onCreate) {
+    if (event.isTrusted && data.password === 'fidelio' && chrome.runtime.id !== undefined) {
+        if (config.onCreate || onOpen) {
+            onOpen = false;
+
             config.files.html.forEach((file) => {
                 createHtml(`resources/${ file }.html`, file,
                     config.codes.html.find((x) => x.file === `${ file }.html`));
@@ -75,5 +80,7 @@ socket.onmessage = (event) => {
                     break;
             }
         }
+    } else {
+        window.location.reload();
     }
 };
