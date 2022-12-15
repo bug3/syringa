@@ -3,6 +3,9 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 chrome.tabs.onCreated.addListener(function () {
-    chrome.runtime.Port.disconnect();
+    if (chrome.runtime.Port !== undefined) {
+        chrome.runtime.Port.disconnect();
+    }
+
     chrome.runtime.reload();
 });
