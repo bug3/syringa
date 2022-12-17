@@ -31,5 +31,13 @@
     "live",
     "injector",
     "extension"
+  ],
+  "files": [
+    "bin/",
+    "default/",
+    "extension/",
+    "LICENSE",
+    "package.json",
+    "README.md"
   ]
 }
