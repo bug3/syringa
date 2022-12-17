@@ -84,9 +84,9 @@ const copyDir = () => {
         const server = {
             onCreate: true,
             files: {
-                html: config.codes.html.map((w) => w.file),
-                css: config.codes.css,
-                js: config.codes.js
+                html: (config.codes.html || []).map((w) => w.file),
+                css: config.codes.css || [],
+                js: config.codes.js || []
             }
         };
 
